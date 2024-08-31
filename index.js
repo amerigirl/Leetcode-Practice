@@ -1,44 +1,58 @@
+/*Depth first search: start wtih a node, and go to its first child, then its first child, until you can't go any further, then backtrack to the node that hasn't been searched and search it in the same way this is typically done with a recursive function: 
 
-//For each problem: go to leetcode for all directions and examples
-
-//1. Two Sum (Easy) --arrays and lists
-
-var twoSum = function (nums, target) {
-  let map = new Map();
-
-  for (let i = 0; i < nums.length; i++) {
-    let num1 = nums[i];
-    let num2 = target - nums[i];
-
-    if (map.has(num2)) {
-      return [i, map.get(num2)];
-    } else {
-      map.set(num1, i); //the value goes first??
-    }
-  }
-};
-
-//check method: 
-console.log(twoSum([2,7,11,15], 9));
-
-
-/*----------------------------------------------------
-      2. Shuffle Array (Easy) --arrays and lists
+      function visit(n): if n not visited: visit n
 */
 
-var shuffle = function(nums, n) {
-   newArray = [];
-for(let i = 0; i < n; i++){
- 
-  newArray.push(nums[i]);
-  newArray.push(nums[i + n]);
-  
+/* Breadth first search startes with a que and you add direct children to a que and once they've been visited, visit the grandchildren, and continue
+
+let q = [s]
+
+while q not empty: n = q.dequeue()
+
+for v of n.children: q.enqueue(v)
+*/
+
+
+//using the variables below, create an adjacency list
+
+
+
+const airports = "PHX BKK OKC JFK LAX MEX EZE HEL LOS LAP LIM".split(" ");
+
+const routes = [
+  ["PHX", "LAX"],
+  ["PHX", "JFK"],
+  ["JFK", "OKC"],
+  ["JFK", "HEL"],
+  ["JFK", "LOS"],
+  ["MEX", "LAX"],
+  ["MEX", "BKK"],
+  ["MEX", "LIM"],
+  ["MEX", "EZE"],
+  ["LIM", "BKK"],
+];
+
+//implementing an adjacency list insteady of a matrix
+
+//1. create the graph using a map --you have api functions and it aligns more with other languages
+
+const adjacencyList = new Map(); 
+
+//add node function
+
+function addNode(airport){
+adjacencyList.set(airport, []); //it creates an empty array
 }
-  return newArray; 
-};
 
-console.log(shuffle([1,2,3,4,4,3,2,1], 4))
+//add edge, undirected
 
-/* -----------------------------------------------
-      3. 
-*/
+function addEdge(origin, destination) {
+  adjacencyList.get(origin).push(destination);
+  adjacencyList.get(destination).push(origin);
+}
+
+//create graph
+airports.forEach(addNode);
+routes.forEach(route => addEdge(...route))
+
+console.log(adjacencyList)
